@@ -13,9 +13,10 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: linear-gradient(180deg, rgba(10, 10, 12, 0.98), rgba(10, 10, 12, 0.85));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0.98), rgba(13, 27, 45, 0.94));
+  border-bottom: 1px solid rgba(201, 165, 91, 0.28);
   backdrop-filter: blur(10px);
+  color: var(--color-text);
 }
 
 .header-inner {
@@ -34,12 +35,11 @@
   color: inherit;
 }
 
-.brand-mark {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--color-red-600), var(--color-red-900));
-  box-shadow: 0 0 20px rgba(143, 31, 42, 0.4);
+.brand-logo {
+  width: 64px;
+  height: 56px;
+  display: block;
+  object-fit: contain;
 }
 
 .brand-text {
@@ -73,6 +73,10 @@
   padding: 0.35rem 0;
 }
 
+.site-header .nav-link {
+  color: var(--color-text);
+}
+
 .nav-link.active::after,
 .nav-link:hover::after {
   content: '';
@@ -93,8 +97,8 @@
   top: 2.2rem;
   left: 0;
   min-width: 200px;
-  background: rgba(10, 10, 12, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(17, 17, 17, 0.96);
+  border: 1px solid rgba(201, 165, 91, 0.18);
   border-radius: 12px;
   padding: 0.6rem;
   opacity: 0;
@@ -120,7 +124,7 @@
 
 .dropdown-link:hover,
 .dropdown-link.active {
-  background: rgba(143, 31, 42, 0.18);
+  background: rgba(201, 165, 91, 0.18);
 }
 
 .main-content {
@@ -202,7 +206,14 @@
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(143, 31, 42, 0.3);
+  box-shadow: 0 12px 24px rgba(201, 165, 91, 0.28);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.68;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-ghost {
@@ -217,7 +228,7 @@
 
 .page-hero {
   padding: 4rem 0 2rem;
-  background: radial-gradient(circle at top, rgba(143, 31, 42, 0.3), transparent 55%);
+  background: radial-gradient(circle at top, rgba(201, 165, 91, 0.18), transparent 55%);
 }
 
 .page-intro {
@@ -263,7 +274,7 @@
   width: min(860px, 92vw);
   height: min(520px, 70vh);
   border-radius: 32px;
-  background: rgba(10, 10, 12, 0.6);
+  background: rgba(13, 27, 45, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: grid;
   place-items: center;
@@ -274,7 +285,7 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: linear-gradient(160deg, rgba(143, 31, 42, 0.8), rgba(10, 10, 12, 0.9));
+  background: linear-gradient(160deg, rgba(13, 27, 45, 0.92), rgba(201, 165, 91, 0.24));
   border: 2px solid rgba(255, 255, 255, 0.35);
   display: grid;
   place-items: center;
@@ -297,6 +308,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 340px;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -321,9 +333,15 @@
 }
 
 .overview-node-3 {
-  --x: -110px;
-  --y: 170px;
+  --x: -250px;
+  --y: 150px;
   --delay: 0.8s;
+}
+
+.overview-node-4 {
+  --x: 250px;
+  --y: 150px;
+  --delay: 1s;
 }
 
 .node-dot {
@@ -350,6 +368,7 @@
 .node-left {
   flex-direction: row-reverse;
   text-align: right;
+  justify-content: flex-start;
 }
 
 .node-left .node-meta {
@@ -380,12 +399,13 @@
 
 .overview.in-view .overview-node-1,
 .overview.in-view .overview-node-2,
-.overview.in-view .overview-node-3 {
+.overview.in-view .overview-node-3,
+.overview.in-view .overview-node-4 {
   transition-timing-function: ease-out;
 }
 
 .overview-node:hover .node-dot {
-  background: rgba(176, 42, 53, 0.18);
+  background: rgba(201, 165, 91, 0.18);
   border-color: rgba(255, 255, 255, 0.45);
 }
 
@@ -425,7 +445,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: linear-gradient(90deg, rgba(13, 27, 45, 0.78), rgba(17, 17, 17, 0.58));
 }
 
 .hero-content {
@@ -495,7 +515,7 @@
   padding-left: clamp(1.5rem, 3vw, 3rem);
   padding-right: clamp(1.5rem, 3vw, 3rem);
   overflow: hidden;
-  background: rgba(8, 8, 10, 0.6);
+  background: rgba(13, 27, 45, 0.62);
   width: min(1100px, 90vw);
   margin: 0 auto;
 }
@@ -504,7 +524,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(143, 31, 42, 0.2), rgba(10, 10, 12, 0.6));
+  background: linear-gradient(135deg, rgba(201, 165, 91, 0.18), rgba(13, 27, 45, 0.68));
   opacity: 0;
   transition: opacity 0.6s ease;
 }
@@ -514,7 +534,8 @@
 }
 
 .service-panel-1 {
-  background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80');
+  background-image: linear-gradient(90deg, rgba(13, 27, 45, 0.78), rgba(13, 27, 45, 0.46)),
+    url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80');
   background-size: cover;
   background-position: center;
 }
@@ -527,6 +548,12 @@
 
 .service-panel-3 {
   background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.service-panel-4 {
+  background-image: url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80');
   background-size: cover;
   background-position: center;
 }
@@ -576,7 +603,7 @@
 .panel-card {
   padding: 2rem;
   border-radius: 20px;
-  background: linear-gradient(160deg, rgba(143, 31, 42, 0.25), rgba(10, 10, 12, 0.8));
+  background: linear-gradient(160deg, rgba(13, 27, 45, 0.84), rgba(201, 165, 91, 0.16));
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
   transition: transform 0.5s ease, box-shadow 0.5s ease;
@@ -606,6 +633,7 @@
   width: 26px;
   height: 26px;
   object-fit: contain;
+  filter: invert(76%) sepia(34%) saturate(566%) hue-rotate(2deg) brightness(89%) contrast(86%);
   transition: transform 0.2s ease;
 }
 
@@ -756,6 +784,10 @@
   margin: 0;
 }
 
+.form-error {
+  color: var(--color-gold-soft);
+}
+
 .not-found-card {
   padding: 4rem 0;
   text-align: center;
@@ -794,12 +826,17 @@
 
   .overview-node-2 {
     --x: 190px;
-    --y: 0px;
+    --y: -90px;
   }
 
   .overview-node-3 {
-    --x: -170px;
+    --x: -200px;
     --y: 140px;
+  }
+
+  .overview-node-4 {
+    --x: 160px;
+    --y: 150px;
   }
 }
 
@@ -837,6 +874,7 @@
 
   .overview-node {
     position: static;
+    width: auto;
     transform: none;
     opacity: 1;
     transition: none;

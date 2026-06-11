@@ -2,21 +2,29 @@
   font-family: var(--font-body);
   line-height: 1.6;
   font-weight: 400;
-  color: #f7f4f2;
-  background-color: #0b0b0c;
+  color: #f7f7f5;
+  background-color: #111111;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --font-display: 'STSong', 'Songti SC', 'SimSun', serif;
   --font-body: 'HarmonyOS Sans', 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif;
-  --color-red-900: #2b0b0f;
-  --color-red-700: #5a121a;
-  --color-red-600: #8f1f2a;
-  --color-red-500: #b02a35;
-  --color-red-300: #f08a8a;
-  --color-text: #f7f4f2;
-  --color-muted: rgba(247, 244, 242, 0.7);
+  --color-navy-950: #07101d;
+  --color-navy-900: #0d1b2d;
+  --color-navy-700: #17304f;
+  --color-black: #111111;
+  --color-gray: #a7a9ad;
+  --color-gold: #c9a55b;
+  --color-gold-soft: #ead59d;
+  --color-surface: rgba(13, 27, 45, 0.78);
+  --color-red-900: var(--color-navy-950);
+  --color-red-700: var(--color-navy-900);
+  --color-red-600: var(--color-gold);
+  --color-red-500: var(--color-gold);
+  --color-red-300: var(--color-gold-soft);
+  --color-text: #f7f7f5;
+  --color-muted: rgba(247, 247, 245, 0.72);
 }
 
 html {
@@ -32,10 +40,10 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background-image: radial-gradient(circle at top left, rgba(143, 31, 42, 0.22), transparent 45%),
-    radial-gradient(circle at 70% 20%, rgba(120, 30, 36, 0.25), transparent 50%),
-    radial-gradient(circle at 30% 92%, rgba(143, 31, 42, 0.22), transparent 35%),
-    linear-gradient(135deg, #0a0a0c, #111114 60%, #1a0b0f);
+  background-image: radial-gradient(circle at top left, rgba(201, 165, 91, 0.16), transparent 40%),
+    radial-gradient(circle at 70% 20%, rgba(13, 27, 45, 0.58), transparent 48%),
+    radial-gradient(circle at 30% 92%, rgba(167, 169, 173, 0.12), transparent 36%),
+    linear-gradient(135deg, #111111, #0d1b2d 58%, #07101d);
   color: var(--color-text);
 }
 

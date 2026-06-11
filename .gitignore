@@ -11,6 +11,16 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+__pycache__
+*.pyc
+
+# Runtime data and secrets
+jscx_survey_app/.env
+jscx_survey_app/.env.*
+!jscx_survey_app/.env.example
+jscx_survey_app/data/
+jscx_survey_app/*.log
 
 # Editor directories and files
 .vscode/*

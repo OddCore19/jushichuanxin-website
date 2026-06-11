@@ -4,9 +4,9 @@ import './App.css'
 import Home from './pages/Home'
 import Services from './pages/Services'
 import CaseDetail from './pages/CaseDetail'
-import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 import { cases } from './data/cases'
+import logoLockup from './assets/jscx-logo-lockup-white.png'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -25,7 +25,7 @@ function App() {
       <header className="site-header">
         <div className="container header-inner">
           <Link className="brand" to="/">
-            <span className="brand-mark" />
+            <img className="brand-logo" src={logoLockup} alt="聚时传薪 JSCX" />
             <div className="brand-text">
               <span className="brand-name">聚时传薪</span>
               <span className="brand-subtitle">文化发展有限公司</span>
@@ -48,9 +48,9 @@ function App() {
                 ))}
               </div>
             </div>
-            <NavLink to="/contact" className="nav-link">
+            <a href="/contact/" className="nav-link">
               业务咨询
-            </NavLink>
+            </a>
           </nav>
         </div>
       </header>
@@ -60,7 +60,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
           <Route path="/cases/:caseId" element={<CaseDetail />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -73,7 +72,7 @@ function App() {
           </div>
           <div className="footer-links">
             <Link to="/services">服务概览</Link>
-            <Link to="/contact">咨询合作</Link>
+            <a href="/contact/">咨询合作</a>
           </div>
         </div>
       </footer>
@@ -81,15 +80,15 @@ function App() {
         <div className="container bottom-bar-inner">
           <div>
             <span className="bottom-label">地址</span>
-            <span>上海市 · 示例地址占位</span>
+            <span>北京市 · 朝阳区</span>
           </div>
           <div>
             <span className="bottom-label">联系方式</span>
-            <span>021-00000000 · contact@chuanxin.com</span>
+            <span>18611630797 · contact@chuanxin.com</span>
           </div>
           <div>
             <span className="bottom-label">ICP备案</span>
-            <span>沪ICP备00000000号</span>
+            <span>京ICP备2026015800号-1</span>
           </div>
         </div>
       </div>

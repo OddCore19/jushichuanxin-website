@@ -7,10 +7,11 @@ function Services() {
       <section className="page-hero">
         <div className="container">
           <p className="eyebrow">服务概览</p>
-          <h1>聚焦内容与传播的三大业务模块</h1>
+          <h1>聚焦增信与传播的四大业务模块</h1>
           <p className="page-intro">
-            从内容生产、媒体投放到IP塑造，帮助品牌构建长期可复用的传播资产。
+            从专家深度报道、权威发布背书到企业宣传片传播，帮助创新企业构建长期可复用的公信力资产。
           </p>
+          <p className="page-intro">以上报价皆为 2026 年税前价格，支持全年框架合作与单项服务组合。</p>
         </div>
       </section>
 
