@@ -5,7 +5,7 @@ export type Service = {
   details: string
   panelLine: string
   tags: string[]
-  caseId: string
+  caseId?: string
 }
 
 export const services: Service[] = [

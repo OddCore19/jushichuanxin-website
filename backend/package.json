@@ -1,7 +1,7 @@
 {
-  "name": "jscx-brand-survey-h5",
+  "name": "jscx-backend",
   "version": "1.0.0",
-  "description": "聚时传薪企业品牌资产与企业家影响力诊断H5问卷与后台分析",
+  "description": "聚时传薪官网后端：问卷、内容管理、动态案例和邮件任务",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -1,11 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import Services from './pages/Services'
+import ServiceAdmin from './pages/ServiceAdmin'
+import About from './pages/About'
 import CaseDetail from './pages/CaseDetail'
 import NotFound from './pages/NotFound'
 import { cases } from './data/cases'
+import { loadDynamicContent } from './data/dynamicContent'
 import logoLockup from './assets/jscx-logo-lockup-white.png'
 
 function ScrollToTop() {
@@ -18,9 +21,38 @@ function ScrollToTop() {
   return null
 }
 
-function App() {
+function CaseDropdown() {
+  const [caseLinks, setCaseLinks] = useState(cases)
+  const [hasLoadedDynamicCases, setHasLoadedDynamicCases] = useState(false)
+
+  const loadDynamicCases = () => {
+    if (hasLoadedDynamicCases) return
+    setHasLoadedDynamicCases(true)
+    loadDynamicContent().then((content) => {
+      if (content.cases.length) setCaseLinks([...cases, ...content.cases])
+    })
+  }
+
   return (
-    <div className="app">
+    <div className="nav-item has-dropdown" onMouseEnter={loadDynamicCases} onFocus={loadDynamicCases}>
+      <span className="nav-link">案例</span>
+      <div className="dropdown">
+        {caseLinks.map((item) => (
+          <NavLink key={item.id} to={`/cases/${item.id}`} className="dropdown-link">
+            {item.title}
+          </NavLink>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function App() {
+  const location = useLocation()
+  const isAdminRoute = location.pathname.startsWith('/services/admin')
+
+  return (
+    <div className={`app${isAdminRoute ? ' app-admin' : ''}`}>
       <ScrollToTop />
       <header className="site-header">
         <div className="container header-inner">
@@ -38,16 +70,10 @@ function App() {
             <NavLink to="/services" className="nav-link">
               服务概览
             </NavLink>
-            <div className="nav-item has-dropdown">
-              <span className="nav-link">案例</span>
-              <div className="dropdown">
-                {cases.map((item) => (
-                  <NavLink key={item.id} to={`/cases/${item.id}`} className="dropdown-link">
-                    {item.title}
-                  </NavLink>
-                ))}
-              </div>
-            </div>
+            <NavLink to="/about" className="nav-link">
+              关于我们
+            </NavLink>
+            <CaseDropdown />
             <a href="/contact/" className="nav-link">
               业务咨询
             </a>
@@ -59,6 +85,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/admin" element={<ServiceAdmin />} />
+          <Route path="/about" element={<About />} />
           <Route path="/cases/:caseId" element={<CaseDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -72,6 +100,7 @@ function App() {
           </div>
           <div className="footer-links">
             <Link to="/services">服务概览</Link>
+            <Link to="/about">关于我们</Link>
             <a href="/contact/">咨询合作</a>
           </div>
         </div>

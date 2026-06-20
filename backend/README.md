@@ -1,10 +1,13 @@
-# 聚时传薪企业品牌诊断 H5 问卷系统
+# 聚时传薪后端服务
+
+这个目录承载聚时传薪官网的 Node 后端能力：问卷 H5、问卷后台、动态服务/案例内容 API、案例物料上传和邮件日报脚本。
 
 ## 功能
 
 - 手机端 H5 问卷，可在微信中打开填写。
 - 提交结果自动进入后台。
 - 后台查看原始记录、自动统计、图表可视化、CSV 导出。
+- 内容后台可新增服务概览卡片，并可选择生成关联案例与上传案例物料。
 - 每天定时读取 `data/submissions.json`，汇总新增问卷并发送邮件日报。
 - 已替换为 `public/assets/logo.png` 中的聚时传薪 LOGO。
 
@@ -21,12 +24,13 @@ npm start
 
 - 问卷页：http://localhost:3000/contact/
 - 后台页：http://localhost:3000/contact/admin
+- 内容管理页：http://localhost:5173/services/admin
 
 如果要通过主站本地地址访问，需要同时启动两个服务：
 
 ```bash
-# 终端 1：问卷 App
-cd jscx_survey_app
+# 终端 1：后端服务
+cd backend
 npm run dev
 
 # 终端 2：官网 Vite
@@ -37,6 +41,13 @@ npm run dev
 官网 Vite 已配置开发代理，因此也可以访问：
 
 - 问卷页：http://localhost:5173/contact/
+- 内容管理页：http://localhost:5173/services/admin
+
+默认只跑官网 `npm run dev` 时不会自动读取动态服务卡片，避免 Node 问卷服务未启动时刷代理错误。若要在本地预览动态服务卡片和案例，需要同时启动后端服务，并用下面方式启动官网：
+
+```bash
+VITE_ENABLE_DYNAMIC_CONTENT=true npm run dev
+```
 
 ## 必须修改的配置
 
@@ -63,6 +74,18 @@ BASE_PATH=/contact
 data/submissions.json
 ```
 
+服务概览动态卡片和案例默认保存在：
+
+```bash
+data/content.json
+```
+
+管理员上传的案例物料默认保存在：
+
+```bash
+public/uploads/content
+```
+
 正式部署时必须保证 `data` 目录可持久化，否则重启后数据可能丢失。
 
 日报发送成功后，脚本会给已发送的记录增加 `dailyReportSentAt` 字段，避免重复发送。后台和 CSV 导出仍可正常读取原始问卷字段。
@@ -72,7 +95,7 @@ data/submissions.json
 手动执行一次：
 
 ```bash
-cd /var/www/jscx_survey_app
+cd /var/www/backend
 npm run report:daily
 ```
 
@@ -86,7 +109,7 @@ npm run report:daily
 cron 示例，每天上午 9 点发送：
 
 ```cron
-0 9 * * * cd /var/www/jscx_survey_app && /usr/bin/npm run report:daily >> /var/log/jscx-survey-report.log 2>&1
+0 9 * * * cd /var/www/backend && /usr/bin/npm run report:daily >> /var/log/jscx-backend-report.log 2>&1
 ```
 
 如果服务器上的 `npm` 不在 `/usr/bin/npm`，先运行 `which npm`，把 cron 里的路径替换成实际路径。
@@ -106,7 +129,7 @@ https://你的域名.com
 ### 1. 准备服务器
 
 - 系统建议：Ubuntu 22.04 或更新版本。
-- 开放端口：80、443、3000。
+- 公网开放端口：80、443。Node 端口 3000 只给 Nginx 反向代理访问，不建议对公网开放。
 - 准备主站域名，例如 `yourdomain.com`。问卷默认挂载在同域名 `/contact/`。
 
 ### 2. 安装 Node.js
@@ -123,13 +146,13 @@ npm -v
 把整个项目目录上传到服务器，例如：
 
 ```bash
-/var/www/jscx_survey_app
+/var/www/backend
 ```
 
 ### 4. 安装依赖
 
 ```bash
-cd /var/www/jscx_survey_app
+cd /var/www/backend
 npm install --omit=dev
 cp .env.example .env
 nano .env
@@ -140,7 +163,7 @@ nano .env
 ```bash
 ADMIN_PASSWORD=你的后台密码
 COOKIE_SECRET=随机长字符
-DATA_DIR=/var/www/jscx_survey_app/data
+DATA_DIR=/var/www/backend/data
 BASE_PATH=/contact
 ```
 
@@ -148,7 +171,7 @@ BASE_PATH=/contact
 
 ```bash
 sudo npm install -g pm2
-pm2 start server.js --name jscx-survey
+pm2 start server.js --name jscx-backend
 pm2 save
 pm2 startup
 ```
@@ -162,7 +185,7 @@ crontab -e
 加入：
 
 ```cron
-0 9 * * * cd /var/www/jscx_survey_app && /usr/bin/npm run report:daily >> /var/log/jscx-survey-report.log 2>&1
+0 9 * * * cd /var/www/backend && /usr/bin/npm run report:daily >> /var/log/jscx-backend-report.log 2>&1
 ```
 
 ### 6. 配置 Nginx 反向代理
@@ -194,6 +217,15 @@ server {
     }
 
     location /contact/ {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /api/ {
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
@@ -240,21 +272,21 @@ https://yourdomain.com/contact/admin
 ### 1. 构建镜像
 
 ```bash
-docker build -t jscx-survey .
+docker build -t jscx-backend .
 ```
 
 ### 2. 运行容器
 
 ```bash
 docker run -d \
-  --name jscx-survey \
+  --name jscx-backend \
   -p 3000:3000 \
   -e ADMIN_PASSWORD='你的后台密码' \
   -e COOKIE_SECRET='随机长字符' \
   -e DATA_DIR='/app/data' \
   -e BASE_PATH='/contact' \
   -v $(pwd)/data:/app/data \
-  jscx-survey
+  jscx-backend
 ```
 
 然后继续用 Nginx + HTTPS 做公网访问。

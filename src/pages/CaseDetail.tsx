@@ -1,9 +1,39 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { cases } from '../data/cases'
+import { loadDynamicContent } from '../data/dynamicContent'
 
 function CaseDetail() {
   const { caseId } = useParams()
-  const caseItem = cases.find((item) => item.id === caseId)
+  const [caseItems, setCaseItems] = useState(cases)
+  const [loadedDynamicContent, setLoadedDynamicContent] = useState(false)
+  const caseItem = caseItems.find((item) => item.id === caseId)
+
+  useEffect(() => {
+    let mounted = true
+
+    loadDynamicContent().then((content) => {
+      if (mounted) {
+        setCaseItems([...cases, ...content.cases])
+        setLoadedDynamicContent(true)
+      }
+    })
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  if (!caseItem && !loadedDynamicContent) {
+    return (
+      <div className="page case-page">
+        <section className="container case-not-found">
+          <h1>案例加载中</h1>
+          <p>正在读取案例内容。</p>
+        </section>
+      </div>
+    )
+  }
 
   if (!caseItem) {
     return (
@@ -57,11 +87,26 @@ function CaseDetail() {
               <div className="media-label">{caseItem.mediaLabel}</div>
               <div className="media-placeholder">视频占位</div>
             </div>
-          ) : (
+          ) : caseItem.mediaType === 'image' ? (
             <div className="media-frame image-frame">
               <div className="media-label">{caseItem.mediaLabel}</div>
               <div className="media-placeholder">图像占位</div>
             </div>
+          ) : null}
+          {caseItem.materialUrl ? (
+            <div className="media-frame material-frame">
+              <div className="media-label">案例物料</div>
+              <a href={caseItem.materialUrl} target="_blank" rel="noreferrer">
+                {caseItem.materialName || '查看案例物料'}
+              </a>
+            </div>
+          ) : (
+            !caseItem.mediaType && (
+              <div className="media-frame image-frame">
+                <div className="media-label">案例物料</div>
+                <div className="media-placeholder">暂无上传物料</div>
+              </div>
+            )
           )}
           <Link className="btn btn-ghost" to="/contact">
             预约定制方案

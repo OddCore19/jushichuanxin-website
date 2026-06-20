@@ -6,8 +6,11 @@ export type CaseStudy = {
   story: string
   highlights: string[]
   results: string[]
-  mediaType: 'video' | 'image'
-  mediaLabel: string
+  mediaType?: 'video' | 'image'
+  mediaLabel?: string
+  materialUrl?: string
+  materialName?: string
+  materialType?: string
 }
 
 export const cases: CaseStudy[] = [
