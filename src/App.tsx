@@ -119,6 +119,21 @@ function App() {
             <span className="bottom-label">ICP备案</span>
             <span>京ICP备2026015800号-1</span>
           </div>
+          <div>
+            <a
+              className="police-record"
+              href="https://beian.mps.gov.cn/#/query/webSearch?code=11010502061796"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="京公网安备11010502061796号"
+            >
+              <svg className="police-badge-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2.5 19 5v5.8c0 4.7-2.7 8.9-7 10.7-4.3-1.8-7-6-7-10.7V5l7-2.5Z" />
+                <path d="m12 7.1 1.1 2.2 2.4.35-1.75 1.7.42 2.4L12 12.62l-2.16 1.14.41-2.4-1.74-1.7 2.4-.35L12 7.1Z" />
+              </svg>
+              <span>京公网安备11010502061796号</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
